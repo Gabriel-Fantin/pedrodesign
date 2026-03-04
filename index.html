@@ -559,7 +559,7 @@
             class="holo-card bg-card-gradient border border-white/5 rounded-2xl overflow-hidden reveal group"
           >
             <div class="aspect-video overflow-hidden rounded-t-2xl">
-              <button type="button" onclick="openPortfolioViewer()" class="w-full h-full block cursor-zoom-in" aria-label="Abrir imagem do projeto em tela cheia">
+              <button type="button" onclick="togglePortfolioScroll()" class="relative z-10 w-full h-full block cursor-zoom-in" aria-label="Abrir imagem completa do projeto">
                 <img src="capas/CAPA-1.png" alt="Identidade Visual Premium" class="w-full h-full object-cover" />
               </button>
             </div>
@@ -619,6 +619,10 @@
                 Manual completo de identidade para escalabilidade.
               </p>
             </div>
+          </div>
+
+          <div id="portfolio-scroll" class="col-span-1 md:col-span-2 rounded-2xl overflow-hidden border border-brand-orange/40 bg-brand-dark/40" style="display: none;">
+            <img src="PORTF%C3%93LIO-1.png" alt="Portfólio 1 completo" class="w-full h-auto object-contain" />
           </div>
         </div>
 
@@ -792,11 +796,6 @@
       </div>
     </footer>
 
-    <div id="portfolio-viewer" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90 p-4 md:p-10" onclick="closePortfolioViewer()">
-      <button type="button" onclick="closePortfolioViewer()" class="absolute top-4 right-4 md:top-6 md:right-6 text-brand-light text-3xl leading-none" aria-label="Fechar visualização">&times;</button>
-      <img src="PORTFÓLIO-1.jpg" alt="Portfólio 1 em tela cheia" class="max-w-full max-h-full object-contain" onclick="event.stopPropagation()" />
-    </div>
-
     <script>
       const spotlight = document.getElementById('spotlight');
       let throttleTimer;
@@ -842,25 +841,20 @@
         }
       }
 
-      function openPortfolioViewer() {
-        const viewer = document.getElementById("portfolio-viewer");
-        viewer.classList.remove("hidden");
-        viewer.classList.add("flex");
-        document.body.style.overflow = "hidden";
-      }
+      function togglePortfolioScroll() {
+        const panel = document.getElementById("portfolio-scroll");
+        const isHidden = panel.style.display === "none" || panel.style.display === "";
 
-      function closePortfolioViewer() {
-        const viewer = document.getElementById("portfolio-viewer");
-        viewer.classList.add("hidden");
-        viewer.classList.remove("flex");
-        document.body.style.overflow = "";
-      }
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          closePortfolioViewer();
+        if (isHidden) {
+          panel.style.display = "block";
+          setTimeout(() => {
+            panel.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 50);
+          return;
         }
-      });
+
+        panel.style.display = "none";
+      }
 
       window.addEventListener("scroll", () => {
         const nav = document.getElementById("navbar");
