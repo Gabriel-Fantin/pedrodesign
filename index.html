@@ -559,7 +559,9 @@
             class="holo-card bg-card-gradient border border-white/5 rounded-2xl overflow-hidden reveal group"
           >
             <div class="aspect-video overflow-hidden rounded-t-2xl">
-              <img src="capas/CAPA-1.png" alt="Identidade Visual Premium" class="w-full h-full object-cover" />
+              <button type="button" onclick="openPortfolioViewer()" class="w-full h-full block cursor-zoom-in" aria-label="Abrir imagem do projeto em tela cheia">
+                <img src="capas/CAPA-1.png" alt="Identidade Visual Premium" class="w-full h-full object-cover" />
+              </button>
             </div>
             <div class="p-6">
               <h4 class="font-display font-bold text-brand-light mb-2">
@@ -790,6 +792,11 @@
       </div>
     </footer>
 
+    <div id="portfolio-viewer" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90 p-4 md:p-10" onclick="closePortfolioViewer()">
+      <button type="button" onclick="closePortfolioViewer()" class="absolute top-4 right-4 md:top-6 md:right-6 text-brand-light text-3xl leading-none" aria-label="Fechar visualização">&times;</button>
+      <img src="PORTFÓLIO-1.jpg" alt="Portfólio 1 em tela cheia" class="max-w-full max-h-full object-contain" onclick="event.stopPropagation()" />
+    </div>
+
     <script>
       const spotlight = document.getElementById('spotlight');
       let throttleTimer;
@@ -834,6 +841,26 @@
           menu.classList.add("translate-x-full");
         }
       }
+
+      function openPortfolioViewer() {
+        const viewer = document.getElementById("portfolio-viewer");
+        viewer.classList.remove("hidden");
+        viewer.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closePortfolioViewer() {
+        const viewer = document.getElementById("portfolio-viewer");
+        viewer.classList.add("hidden");
+        viewer.classList.remove("flex");
+        document.body.style.overflow = "";
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closePortfolioViewer();
+        }
+      });
 
       window.addEventListener("scroll", () => {
         const nav = document.getElementById("navbar");
