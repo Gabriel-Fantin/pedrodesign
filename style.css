@@ -106,7 +106,7 @@ body::before {
 }
 
 .hero-badge-mobile {
-  display: none;
+  display: none !important;
 }
 
 @keyframes floatImage {
