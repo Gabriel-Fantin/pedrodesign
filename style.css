@@ -122,6 +122,10 @@ body::before {
   .hero.pt-16 {
     padding-top: 1.5rem !important;
   }
+
+  .hero-right {
+    margin-top: -6rem;
+  }
 }
 
 /* Mobile Responsiveness */
@@ -299,6 +303,12 @@ body::before {
 @keyframes textShine {
   to {
     background-position: 200% center;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: skewX(-20deg) translateX(150%);
   }
 }
 
