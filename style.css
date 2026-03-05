@@ -243,6 +243,12 @@ body::before {
     margin-top: -8px;
   }
 
+  .hero-seq-subtitle {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    text-align: left;
+  }
+
   .text-title-image {
     width: min(100%, 560px);
     max-width: min(100%, 560px) !important;
