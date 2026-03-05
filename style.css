@@ -118,6 +118,12 @@ body::before {
   }
 }
 
+@media (min-width: 769px) {
+  .hero.pt-16 {
+    padding-top: 1.5rem !important;
+  }
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .hero {
