@@ -15,13 +15,13 @@
 }
 
 body {
-  background-color: #0a0a0a;
+  background-color: #060606;
   background-image: url('quadrados.png');
   background-attachment: fixed;
   background-size: auto;
   background-position: left;
   background-repeat: repeat;
-  color: #fff0e4e4;
+  color: #fff0e4;
   overflow-x: hidden;
   overflow-y: auto;
   cursor: default;
@@ -34,7 +34,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(10, 10, 10, 0.890);
+  background: rgba(6, 6, 6, 0.93);
   pointer-events: none;
   z-index: 1;
 }
