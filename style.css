@@ -198,6 +198,10 @@ body::before {
   .hero-right {
     margin-top: -3rem;
   }
+
+  .hero-image {
+    margin-top: -83px;
+  }
 }
 
 /* Mobile Responsiveness */
@@ -247,7 +251,10 @@ body::before {
 
   .hero-badge-mobile {
     display: inline-flex !important;
-    margin-bottom: -30px;
+    margin-bottom: -40px;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .hero-image {
