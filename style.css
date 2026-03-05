@@ -10,6 +10,11 @@
   --mouse-y: 0px;
 }
 
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -200,10 +205,12 @@ body::before {
   .hero {
     flex-direction: column;
     gap: 1rem;
+    overflow-x: clip;
   }
 
   .hero-container {
     padding: 0 1.5rem;
+    overflow-x: clip;
   }
 
   .hero-left {
@@ -215,15 +222,17 @@ body::before {
   }
 
   .hero-right {
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
     justify-content: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0;
     order: -1;
     position: relative;
     z-index: 1;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .hero-right::before {
@@ -245,7 +254,8 @@ body::before {
     display: block;
     width: min(112vw, 580px);
     max-width: none;
-    margin-left: -24px;
+    margin-left: -21px;
+    margin-right: auto;
     margin-top: -14px;
     animation: none;
   }
@@ -409,6 +419,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
   background: linear-gradient(
     to right,
     transparent 0%,
@@ -417,6 +428,13 @@ body::before {
   );
   transform: skewX(-20deg) translateX(-150%);
   animation: shimmer 3s infinite;
+}
+
+@media (max-width: 768px) {
+  a.fixed.bottom-8.right-8 {
+    z-index: 100;
+    pointer-events: auto;
+  }
 }
 
 .draggable-logo {
