@@ -183,11 +183,15 @@ body::before {
 
 @media (min-width: 769px) {
   .hero.pt-16 {
-    padding-top: 1.5rem !important;
+    padding-top: 0.5rem !important;
+  }
+
+  .hero-left {
+    margin-top: -9rem;
   }
 
   .hero-right {
-    margin-top: 2.5rem;
+    margin-top: -3rem;
   }
 }
 
