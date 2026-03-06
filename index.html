@@ -741,7 +741,11 @@
                 <source src="motion/flyer5%20animado.mp4" type="video/mp4" />
               </video>
             </div>
-            <div class="aspect-[9/16]" style="background: #111010; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #ff7800; font-family: 'Heading Now', 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 700; text-align: center;">*VÍDEO*</div>
+            <div class="aspect-[9/16] overflow-hidden" style="background: #111010; border-radius: 12px;">
+              <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
+                <source src="motion/6flyer%20lume.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
           <div id="motion-carousel" class="md:hidden overflow-x-auto -mx-6 pb-4 hide-scrollbar" style="scroll-behavior: smooth; -webkit-overflow-scrolling: touch;">
             <div id="motion-carousel-track" class="flex gap-2" style="width: max-content;">
@@ -770,7 +774,11 @@
                   <source src="motion/flyer5%20animado.mp4" type="video/mp4" />
                 </video>
               </div>
-              <div class="aspect-[9/16] flex-shrink-0" style="width: 200px; background: #111010; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #ff7800; font-family: 'Heading Now', 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 700; text-align: center;">*VÍDEO*</div>
+              <div class="aspect-[9/16] flex-shrink-0 overflow-hidden" style="width: 200px; background: #111010; border-radius: 12px;">
+                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
+                  <source src="motion/6flyer%20lume.mp4" type="video/mp4" />
+                </video>
+              </div>
             </div>
           </div>
         </div>
@@ -956,6 +964,29 @@
             motionTrack.appendChild(card.cloneNode(true));
           });
 
+          const setupMotionVideos = () => {
+            const videos = motionTrack.querySelectorAll("video");
+            videos.forEach((video) => {
+              video.muted = true;
+              video.autoplay = true;
+              video.loop = true;
+              video.playsInline = true;
+              video.setAttribute("muted", "");
+              video.setAttribute("autoplay", "");
+              video.setAttribute("loop", "");
+              video.setAttribute("playsinline", "");
+              video.setAttribute("webkit-playsinline", "");
+              video.preload = "auto";
+
+              const playPromise = video.play();
+              if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(() => {});
+              }
+            });
+          };
+
+          setupMotionVideos();
+
           let paused = false;
           const pixelsPerSecond = 56;
           let halfTrackWidth = 0;
@@ -1000,6 +1031,7 @@
           motionCarousel.addEventListener("touchend", () => {
             setTimeout(() => {
               paused = false;
+              setupMotionVideos();
             }, 800);
           }, { passive: true });
 
@@ -1009,6 +1041,13 @@
 
           motionCarousel.addEventListener("mouseleave", () => {
             paused = false;
+            setupMotionVideos();
+          });
+
+          document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+              setupMotionVideos();
+            }
           });
 
           requestAnimationFrame(loopMotionCarousel);
