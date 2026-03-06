@@ -239,8 +239,8 @@ body::before {
   }
 
   .hero-right {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    width: 100%;
+    margin-left: 0;
     justify-content: center;
     display: flex;
     flex-direction: column;
@@ -272,9 +272,9 @@ body::before {
 
   .hero-image {
     display: block;
-    width: min(112vw, 580px);
+    width: min(100%, 580px);
     max-width: none;
-    margin-left: -21px;
+    margin-left: auto;
     margin-right: auto;
     margin-top: -14px;
     animation: none;
