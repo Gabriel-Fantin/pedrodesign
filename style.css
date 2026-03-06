@@ -44,6 +44,19 @@ body::before {
   z-index: 1;
 }
 
+.plan-item {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .plan-item {
+    font-size: 0.95rem !important;
+  }
+}
+
 .bg-grid {
   mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
   -webkit-mask-image: linear-gradient(
