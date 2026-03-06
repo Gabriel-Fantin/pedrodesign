@@ -229,7 +229,7 @@
               </span>
               Design estratégico
             </div>
-            <img src="FOTO.png" alt="Design estratégico" class="hero-image" />
+            <img src="FOTO.png" alt="Design estratégico" class="hero-image" fetchpriority="high" decoding="async" />
           </div>
         </div>
       </div>
@@ -751,32 +751,32 @@
           <div id="motion-carousel" class="md:hidden overflow-x-auto -mx-6 pb-4 hide-scrollbar" style="scroll-behavior: smooth; -webkit-overflow-scrolling: touch;">
             <div id="motion-carousel-track" class="flex gap-2" style="width: max-content;">
               <div class="aspect-[9/16] flex-shrink-0 overflow-hidden" style="width: 200px; background: #111010; border-radius: 12px;">
-                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
+                <video class="w-full h-full object-cover motion-mobile-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" data-autoplay="true">
                   <source src="motion/1%20motion%20storys.mp4" type="video/mp4" />
                 </video>
               </div>
               <div class="aspect-[9/16] flex-shrink-0 overflow-hidden" style="width: 200px; background: #111010; border-radius: 12px;">
-                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
+                <video class="w-full h-full object-cover motion-mobile-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" data-autoplay="true">
                   <source src="motion/BLACK%20OFFSIZE%20MOTION%20%281%29.mp4" type="video/mp4" />
                 </video>
               </div>
               <div class="aspect-[9/16] flex-shrink-0 overflow-hidden" style="width: 200px; background: #111010; border-radius: 12px;">
-                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
+                <video class="w-full h-full object-cover motion-mobile-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" data-autoplay="true">
                   <source src="motion/3flyer.mp4" type="video/mp4" />
                 </video>
               </div>
               <div class="aspect-[9/16] flex-shrink-0 overflow-hidden" style="width: 200px; background: #111010; border-radius: 12px;">
-                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
+                <video class="w-full h-full object-cover motion-mobile-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" data-autoplay="true">
                   <source src="motion/4flyer.mp4" type="video/mp4" />
                 </video>
               </div>
               <div class="aspect-[9/16] flex-shrink-0 overflow-hidden" style="width: 200px; background: #111010; border-radius: 12px;">
-                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
+                <video class="w-full h-full object-cover motion-mobile-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" data-autoplay="true">
                   <source src="motion/flyer5%20animado.mp4" type="video/mp4" />
                 </video>
               </div>
               <div class="aspect-[9/16] flex-shrink-0 overflow-hidden" style="width: 200px; background: #111010; border-radius: 12px;">
-                <video class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata">
+                <video class="w-full h-full object-cover motion-mobile-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" data-autoplay="true">
                   <source src="motion/6flyer%20lume.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -874,7 +874,7 @@
     <a
       href="https://wa.me/27998533577?text=Ol%C3%A1%2C%20quero%20conversar%20sobre%20design%20estrat%C3%A9gico"
       target="_blank"
-      class="btn-shimmer fixed bottom-8 right-8 z-40 bg-brand-orange hover:bg-brand-peach text-brand-dark w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(255,118,44,0.5)] hover:shadow-[0_0_50px_rgba(255,118,44,0.8)] transition-all duration-300 hover:scale-110 animate-bounce"
+      class="btn-shimmer fixed bottom-8 right-8 z-40 bg-brand-orange hover:bg-brand-peach text-brand-dark w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(255,118,44,0.5)] hover:shadow-[0_0_50px_rgba(255,118,44,0.8)] transition-all duration-300 hover:scale-110"
     >
       <i class="fa-brands fa-whatsapp"></i>
     </a>
@@ -916,21 +916,26 @@
     </footer>
 
     <script>
-      const spotlight = document.getElementById('spotlight');
-      let throttleTimer;
-      
-      document.addEventListener("mousemove", (e) => {
-        if (!throttleTimer) {
+      const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+
+      const spotlight = document.getElementById("spotlight");
+      if (spotlight && !isCoarsePointer && !prefersReducedMotion) {
+        let throttleTimer;
+        document.addEventListener("mousemove", (e) => {
+          if (throttleTimer) {
+            return;
+          }
           spotlight.style.setProperty("--mouse-x", `${e.clientX}px`);
           spotlight.style.setProperty("--mouse-y", `${e.clientY}px`);
           document.documentElement.style.setProperty("--mouse-x", `${e.clientX}px`);
           document.documentElement.style.setProperty("--mouse-y", `${e.clientY}px`);
-          
           throttleTimer = setTimeout(() => {
             throttleTimer = null;
-          }, 16);
-        }
-      });
+          }, 32);
+        }, { passive: true });
+      }
 
       document.addEventListener("DOMContentLoaded", () => {
         const observerOptions = {
@@ -950,108 +955,74 @@
         const revealElements = document.querySelectorAll(".reveal");
         revealElements.forEach((el) => observer.observe(el));
 
-        const motionCarousel = document.getElementById("motion-carousel");
-        const motionTrack = document.getElementById("motion-carousel-track");
+        if (isMobileViewport) {
+          const motionCarousel = document.getElementById("motion-carousel");
+          const mobileVideos = document.querySelectorAll(".motion-mobile-video");
+          if (mobileVideos.length > 0) {
+            const tryPlayMobileVideo = (video) => {
+              if (!(video instanceof HTMLVideoElement)) {
+                return;
+              }
 
-        if (
-          motionCarousel &&
-          motionTrack &&
-          window.matchMedia("(max-width: 768px)").matches
-        ) {
-          motionCarousel.style.scrollBehavior = "auto";
-
-          const originalCards = Array.from(motionTrack.children);
-          originalCards.forEach((card) => {
-            motionTrack.appendChild(card.cloneNode(true));
-          });
-
-          const setupMotionVideos = () => {
-            const videos = motionTrack.querySelectorAll("video");
-            videos.forEach((video) => {
               video.muted = true;
-              video.autoplay = true;
-              video.loop = true;
               video.playsInline = true;
+              video.loop = true;
+              video.autoplay = true;
+              video.preload = "metadata";
               video.setAttribute("muted", "");
-              video.setAttribute("autoplay", "");
-              video.setAttribute("loop", "");
               video.setAttribute("playsinline", "");
               video.setAttribute("webkit-playsinline", "");
-              video.preload = "auto";
+              video.setAttribute("autoplay", "");
+              video.setAttribute("loop", "");
+
+              if (video.readyState === 0) {
+                video.load();
+              }
 
               const playPromise = video.play();
               if (playPromise && typeof playPromise.catch === "function") {
                 playPromise.catch(() => {});
               }
+            };
+
+            const mobileVideoObserver = new IntersectionObserver((entries) => {
+              entries.forEach((entry) => {
+                const video = entry.target;
+                if (!(video instanceof HTMLVideoElement)) {
+                  return;
+                }
+
+                if (entry.isIntersecting) {
+                  tryPlayMobileVideo(video);
+                } else {
+                  video.pause();
+                }
+              });
+            }, { rootMargin: "220px 0px", threshold: 0.15 });
+
+            mobileVideos.forEach((video) => {
+              tryPlayMobileVideo(video);
+              mobileVideoObserver.observe(video);
             });
-          };
 
-          setupMotionVideos();
-
-          let paused = false;
-          const pixelsPerSecond = 56;
-          let halfTrackWidth = 0;
-          let lastTimestamp = 0;
-
-          const recalculateLoopWidth = () => {
-            halfTrackWidth = motionTrack.scrollWidth / 2;
-          };
-
-          recalculateLoopWidth();
-          motionCarousel.scrollLeft = 0;
-
-          const loopMotionCarousel = (timestamp) => {
-            if (!lastTimestamp) {
-              lastTimestamp = timestamp;
+            if (motionCarousel) {
+              motionCarousel.addEventListener("touchstart", () => {
+                mobileVideos.forEach((video) => {
+                  const rect = video.getBoundingClientRect();
+                  const visible = rect.right > 0 && rect.left < window.innerWidth;
+                  if (visible) {
+                    tryPlayMobileVideo(video);
+                  }
+                });
+              }, { passive: true });
             }
 
-            const deltaTime = Math.min(timestamp - lastTimestamp, 32);
-            lastTimestamp = timestamp;
-
-            if (!paused && halfTrackWidth > 0) {
-              motionCarousel.scrollLeft += (pixelsPerSecond * deltaTime) / 1000;
-
-              if (motionCarousel.scrollLeft >= halfTrackWidth) {
-                motionCarousel.scrollLeft -= halfTrackWidth;
+            document.addEventListener("visibilitychange", () => {
+              if (!document.hidden) {
+                mobileVideos.forEach((video) => tryPlayMobileVideo(video));
               }
-            }
-
-            requestAnimationFrame(loopMotionCarousel);
-          };
-
-          window.addEventListener("resize", recalculateLoopWidth);
-
-          motionCarousel.addEventListener("touchstart", () => {
-            paused = true;
-          }, { passive: true });
-
-          motionCarousel.addEventListener("touchmove", () => {
-            paused = true;
-          }, { passive: true });
-
-          motionCarousel.addEventListener("touchend", () => {
-            setTimeout(() => {
-              paused = false;
-              setupMotionVideos();
-            }, 800);
-          }, { passive: true });
-
-          motionCarousel.addEventListener("mouseenter", () => {
-            paused = true;
-          });
-
-          motionCarousel.addEventListener("mouseleave", () => {
-            paused = false;
-            setupMotionVideos();
-          });
-
-          document.addEventListener("visibilitychange", () => {
-            if (!document.hidden) {
-              setupMotionVideos();
-            }
-          });
-
-          requestAnimationFrame(loopMotionCarousel);
+            });
+          }
         }
       });
 
@@ -1100,9 +1071,10 @@
           );
           nav.classList.add("border-b-0");
         }
-      });
+      }, { passive: true });
     </script>
   </body>
 </html>
+
 
 
